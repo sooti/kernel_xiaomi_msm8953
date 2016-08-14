@@ -1,4 +1,4 @@
-#
+#defcon
 # Automatically generated file; DO NOT EDIT.
 # Linux/arm64 3.18.105 Kernel Configuration
 #
@@ -348,6 +348,7 @@ CONFIG_PCI_MSI_IRQ_DOMAIN=y
 # CONFIG_PCI_PRI is not set
 # CONFIG_PCI_PASID is not set
 CONFIG_PCI_MSM=y
+CONFIG_SOUND_CONTROL=y
 
 #
 # PCI host controller drivers
