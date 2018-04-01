@@ -1,4 +1,4 @@
-/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -30,10 +30,80 @@
 		compatible = "qcom,mdm-audio-auto";
 		qcom,model = "mdm-auto-i2s-snd-card";
 
-		qcom,prim_mi2s_aux_master = <&prim_master>;
-		qcom,prim_mi2s_aux_slave = <&prim_slave>;
-		qcom,sec_mi2s_aux_master = <&sec_master>;
-		qcom,sec_mi2s_aux_slave = <&sec_slave>;
+		qcom,msm-gpios =
+			"pri_mi2s_aux_master",
+			"pri_mi2s_aux_slave",
+			"sec_mi2s_aux_master",
+			"sec_mi2s_aux_slave";
+		qcom,pinctrl-names =
+			"all_off",
+			"pri_mi2s_aux_master_active",
+			"pri_mi2s_aux_slave_active",
+			"invalid_state_1",
+			"sec_mi2s_aux_master_active",
+			"pri_master_active_sec_master_active",
+			"pri_slave_active_sec_master_active",
+			"invalid_state_2",
+			"sec_mi2s_aux_slave_active",
+			"pri_master_active_sec_slave_active",
+			"pri_slave_active_sec_slave_active";
+		pinctrl-names =
+			"all_off",
+			"pri_mi2s_aux_master_active",
+			"pri_mi2s_aux_slave_active",
+			"invalid_state_1",
+			"sec_mi2s_aux_master_active",
+			"pri_master_active_sec_master_active",
+			"pri_slave_active_sec_master_active",
+			"invalid_state_2",
+			"sec_mi2s_aux_slave_active",
+			"pri_master_active_sec_slave_active",
+			"pri_slave_active_sec_slave_active";
+		pinctrl-0 = <&pri_ws_sleep &pri_sck_sleep
+				&pri_dout_sleep &pri_din_sleep
+				&sec_ws_sleep &sec_sck_sleep
+				&sec_dout_sleep &sec_din_sleep>;
+		pinctrl-1 = <&pri_ws_active_master &pri_sck_active_master
+				&pri_dout_active &pri_din_active
+				&sec_ws_sleep &sec_sck_sleep
+				&sec_dout_sleep &sec_din_sleep>;
+		pinctrl-2 = <&pri_ws_active_slave &pri_sck_active_slave
+				&pri_dout_active &pri_din_active
+				&sec_ws_sleep &sec_sck_sleep
+				&sec_dout_sleep &sec_din_sleep>;
+		pinctrl-3 = <&pri_ws_sleep &pri_sck_sleep
+				&pri_dout_sleep &pri_din_sleep
+				&sec_ws_sleep &sec_sck_sleep
+				&sec_dout_sleep &sec_din_sleep>;
+		pinctrl-4 = <&pri_ws_sleep &pri_sck_sleep
+				&pri_dout_sleep &pri_din_sleep
+				&sec_ws_active_master &sec_sck_active_master
+				&sec_dout_active &sec_din_active>;
+		pinctrl-5 = <&pri_ws_active_master &pri_sck_active_master
+				&pri_dout_active &pri_din_active
+				&sec_ws_active_master &sec_sck_active_master
+				&sec_dout_active &sec_din_active>;
+		pinctrl-6 = <&pri_ws_active_slave &pri_sck_active_slave
+				&pri_dout_active &pri_din_active
+				&sec_ws_active_master &sec_sck_active_master
+				&sec_dout_active &sec_din_active>;
+		pinctrl-7 = <&pri_ws_sleep &pri_sck_sleep
+				&pri_dout_sleep &pri_din_sleep
+				&sec_ws_sleep &sec_sck_sleep
+				&sec_dout_sleep &sec_din_sleep>;
+		pinctrl-8 = <&pri_ws_sleep &pri_sck_sleep
+				&pri_dout_sleep &pri_din_sleep
+				&sec_ws_active_slave &sec_sck_active_slave
+				&sec_dout_active &sec_din_active>;
+		pinctrl-9 = <&pri_ws_active_master &pri_sck_active_master
+				&pri_dout_active &pri_din_active
+				&sec_ws_active_slave &sec_sck_active_slave
+				&sec_dout_active &sec_din_active>;
+		pinctrl-10 = <&pri_ws_active_slave &pri_sck_active_slave
+				&pri_dout_active &pri_din_active
+				&sec_ws_active_slave &sec_sck_active_slave
+				&sec_dout_active &sec_din_active>;
+
 		asoc-platform = <&pcm0>, <&pcm1>, <&voip>, <&voice>,
 				<&loopback>, <&hostless>, <&afe>, <&routing>,
 				<&pcm_dtmf>, <&host_pcm>, <&compress>;
@@ -539,14 +609,19 @@
 	/delete-property/ qcom,use-bam;
 
 	can-controller@0 {
-		compatible = "nxp,mpc5746c";
+		compatible = "qcom,nxp,mpc5746c";
 		reg = <0>;
 		spi-max-frequency = <9600000>;
 		interrupt-parent = <&tlmm_pinmux>;
 		interrupts = <87 0>;
-		reset-gpio = <&tlmm_pinmux 89 0x1>;
-		bits-per-word = <8>;
-		reset-delay-msec = <100>;
+		qcom,reset-gpio = <&tlmm_pinmux 89 0x1>;
+		qcom,clk-freq-mhz = <20000000>;
+		qcom,max-can-channels = <1>;
+		qcom,bits-per-word = <8>;
+		qcom,reset-delay-msec = <200>;
+		qcom,can-fw-cmd-timeout-req;
+		qcom,can-fw-cmd-timeout-ms = <400>;
+		qcom,rem-all-buffering-timeout-ms = <2000>;
 		pinctrl-names = "active", "sleep";
 		pinctrl-0 = <&can_rst_on>;
 		pinctrl-1 = <&can_rst_off>;
