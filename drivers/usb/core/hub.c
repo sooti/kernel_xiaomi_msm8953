@@ -4419,6 +4419,7 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 						r = -EPROTO;
 					break;
 				}
+
 				if (r == 0)
 					break;
 			}
